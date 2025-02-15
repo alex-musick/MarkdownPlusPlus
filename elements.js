@@ -1,7 +1,7 @@
 class Heading {
     id = 0
     level = 1
-    content = "" //text goes here
+    content = "" //text content goes here
 }
 
 class Paragraph {
