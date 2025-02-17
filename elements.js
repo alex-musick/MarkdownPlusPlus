@@ -57,7 +57,7 @@ class HyperLink {
 //THE CLASSES BELOW THIS POINT SHOULD BE IGNORED FOR NOW!
 //They are not native markdown features, but I'm putting them in so we can possibly add support for them later
 
-class rawHtml {
+class RawHtml {
     id = 0
     content = ""
 }
@@ -68,7 +68,7 @@ class Menu {
     style = "horizontal" //we can make a few site menu templates
 }
 
-class footer {
+class Footer {
     id = 0
     content = [] //list of paragraphs
     color = "blue" //again, just an idea
