@@ -40,7 +40,7 @@
       {
         "type": "Paragraph",
         "id": 7,
-        "content": "**Bold Text**",
+        "content": "Bold Text",
         "lineBreak": true,
         "bold": true,
         "italics": false,
@@ -52,7 +52,7 @@
       {
         "type": "Paragraph",
         "id": 8,
-        "content": "*Italic Text*",
+        "content": "Italic Text",
         "lineBreak": true,
         "bold": false,
         "italics": true,
@@ -64,7 +64,7 @@
       {
         "type": "Paragraph",
         "id": 9,
-        "content": "***Bold and Italic Text***",
+        "content": "Bold and Italic Text",
         "lineBreak": true,
         "bold": true,
         "italics": true,
@@ -76,7 +76,7 @@
       {
         "type": "Paragraph",
         "id": 10,
-        "content": "~~Strikethrough Text~~",
+        "content": "Strikethrough Text",
         "lineBreak": true,
         "bold": false,
         "italics": false,
@@ -180,16 +180,10 @@
         ]
       },
       {
-        "type": "Paragraph",
+        "type": "HyperLink",
         "id": 19,
-        "content": "[Link Text](https://www.example.com)",
-        "lineBreak": true,
-        "bold": false,
-        "italics": false,
-        "underline": false,
-        "strikethrough": false,
-        "alignment": "left",
-        "children": []
+        "text": "Example Link",
+        "destination": "www.example.com"
       },
       {
         "type": "EmbeddedImage",
@@ -200,7 +194,7 @@
       {
         "type": "Paragraph",
         "id": 21,
-        "content": "`Inline Code`",
+        "content": "Inline Code",
         "lineBreak": true,
         "bold": false,
         "italics": false,
