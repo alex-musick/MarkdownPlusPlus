@@ -66,12 +66,14 @@ p {
     font-size: var(--paragraphFontSize);
 }
 .largeImg {
-    justify-items: center;
+    display: block;    
+    margin: 0 auto;
     width: 400px;
     height: auto;
 }
 .smallImg {
-    justify-items: center;
+    display: block;
+    margin: 0 auto;
     width: 150px;
     height: auto;
 }
