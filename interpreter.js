@@ -7,6 +7,11 @@ import {
   BulletList,
   CodeBlock,
   EmbeddedImage,
+  Divider,
+  HyperLink,
+  RawHtml,
+  Menu,
+  Footer,
 } from "./elements";
 class MarkdownInterpreter {
   constructor() {
@@ -23,13 +28,23 @@ class MarkdownInterpreter {
         continue;
       }
 
-      // Check what kind of line it is and create right element needed
+      // Checking what kind of line it is and create the right element
       if (line.startsWith("#")) {
         elements.push(this.makeHeading(line));
       } else if (line.startsWith("- ")) {
         elements.push(this.makeListItem(line));
+      } else if (line.startsWith("1. ")) {
+        elements.push(this.makeOrderedListItem(line));
       } else if (line.startsWith("```")) {
         elements.push(this.makeCodeBlock(line));
+      } else if (line.startsWith("![")) {
+        elements.push(this.makeEmbeddedImage(line));
+      } else if (line.startsWith("[")) {
+        elements.push(this.makeHyperLink(line));
+      } else if (line.includes("`")) {
+        elements.push(this.makeInlineCode(line));
+      } else if (line.includes("~~")) {
+        elements.push(this.makeStrikethrough(line));
       } else {
         elements.push(this.makeParagraph(line));
       }
@@ -115,5 +130,26 @@ class MarkdownInterpreter {
     image.id = ++this.elementId;
     image.location = line.slice(2).trim(); // Remove "![" from start
     return image;
+  }
+  makeHyperLink(line) {
+    let link = new HyperLink();
+    link.id = ++this.elementId;
+    let text = line.match(/\[(.*?)\]/)[1];
+    let url = line.match(/\((.*?)\)/)[1];
+    link.text = text;
+    link.destination = url;
+    return link;
+  }
+
+  // Create inline code
+  makeInlineCode(line) {
+    let paragraph = new Paragraph();
+    paragraph.id = ++this.elementId;
+    paragraph.content = line.trim();
+    paragraph.bold = false;
+    paragraph.italics = false;
+    paragraph.underline = false;
+    paragraph.strikethrough = false;
+    return paragraph;
   }
 }

@@ -36,6 +36,12 @@ class CodeBlock {
     language = ""
 }
 
+class InlineCode{
+    id = 0
+    content = ""
+    language = ""
+}
+
 class EmbeddedImage {
     id = 0
     location = "" //local link or hyperlink goes here
