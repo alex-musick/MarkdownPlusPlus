@@ -81,4 +81,4 @@ class Footer {
     size = "small" //probably would affect the height of the footer
 }
 
-export { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage, Divider, HyperLink, RawHtml, Menu, Footer };
+export { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage, Divider, HyperLink, RawHtml, Menu, Footer, InlineCode };
