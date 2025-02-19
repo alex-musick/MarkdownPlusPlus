@@ -1,13 +1,49 @@
 //This file will contain the code that will convert the list of element objects into functional HTML markup.
 
+import { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage } from './elements';
+
+import MarkdownInterpeter from './interpreter.js';
+
+const interpeter = new MarkdownInterpeter()
+
 const page = getElementById("MDPP_Anchor")
 
-//Insert code here to grab use markdown interpeter -- waiting for completion to impelement this part
+var elements = [] //PLACEHOLDER!! Replace this with a call to the interpeter
 
-function render_heading(heading, previous) {
-    var htmlContent = `<h${heading.level}>`
+for (i = 0; i <= elements.length; i++)
+{
+    var element = elements[i]
+    if (i == 0 && element instanceof Heading) // If first line is a heading, make it the banner content
+    {
+        render_heading(element, page, true)
+    }
+
+    if (element instanceof ListItem) // Sanity check -- this should never happen
+    {
+        console.log("Warning: MDPP/Renderer: ListItem appeared in main element list.")
+        continue
+    }
+
+    if (element instanceof Paragraph)
+    {
+        render_paragraph(element, page)
+    }
+
+}
+
+function render_heading(heading, previous, banner=false) {
+    var htmlContent = ""
+    if (banner == true)
+    {
+        htmlContent += '<div id="banner">'
+    }
+    htmlContent += `<h${heading.level}>`
     htmlContent += heading.content
     htmlContent += `h${heading.level}`
+    if (banner == true)
+        {
+            htmlContent += '</div>'
+        }
     previous.insertAdjacentHTML("beforeend", htmlContent)
     return
 }
