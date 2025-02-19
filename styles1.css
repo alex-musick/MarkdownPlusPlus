@@ -1,0 +1,79 @@
+:root {
+  --headerColor: Black;
+  --paragraphColor: Black;
+  --textBackgroundColor: None;
+  --bannerColor: #c8d8e4;
+  --headerFont: 'Poppins', sans-serif;;
+  --paragraphFont: 'Open Sans', sans-serif;
+  --headline1Size: 32px;
+  --headline2Size: 28px;
+  --headline3Sise: 24px;
+  --paragraphFontSize: 16px;
+}
+#banner {
+    background-color: var(--bannerColor);
+    width: 100%;
+    height: 100px;
+}
+h1 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline1Size);
+}
+.specialh1 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline1Size);
+}
+h2 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline2Size);
+}
+.specialh2 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline2Size);
+}
+h3 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline3Size);
+}
+.specialh3 {
+    text-align: center;
+    color: var(--headerColor);
+    font-family: var(--headerFont);
+    font-size: var(--headline3Size);
+}
+p {
+    text-align: center;
+    color: var(--paragraphColor);
+    font-family: var(--paragraphFont);
+    background-color: var(--textBackgroundColor);
+    font-size: var(--paragraphFontSize);
+}
+.specialp {
+    text-align: center;
+    color: var(--paragraphColor);
+    font-family: var(--paragraphFont);
+    background-color: var(--textBackgroundColor);
+    font-size: var(--paragraphFontSize);
+}
+.largeImg {
+    display: block;    
+    margin: 0 auto;
+    width: 400px;
+    height: auto;
+}
+.smallImg {
+    display: block;
+    margin: 0 auto;
+    width: 150px;
+    height: auto;
+}

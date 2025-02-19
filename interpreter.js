@@ -1,5 +1,6 @@
 //This file will contain the code that reads the markdown file, and converts it to a list of element objects.
 // Simple markdown interpreter that converts text to element objects
+import { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage } from './elements';
 class MarkdownInterpreter {
       constructor() {
           this.elementId = 0;  // Keep track of element IDs
@@ -37,7 +38,6 @@ class MarkdownInterpreter {
       makeHeading(line) {
           let heading = new Heading();
           heading.id = ++this.elementId;
-          
           // Count # symbols to get heading level
           let count = 0;
           while(line[count] === '#') {
@@ -80,12 +80,39 @@ class MarkdownInterpreter {
           list.items = [item];
           return list;
       }
-  
+      
+      
       // Create a code block
-      makeCodeBlock(line) {
-          let code = new CodeBlock();
-          code.id = ++this.elementId;
-          code.content = line.slice(3).trim();  // Remove ``` from start
-          return code;
+      makeCodeBlock(lines, index) {
+            let code = new CodeBlock();
+            code.id = ++this.elementId;
+            code.content = [];
+
+        // Skips the starting "```"
+        index++;
+
+        // Collects lines until the closing "```" is reached
+        while (index < lines.length && !lines[index].startsWith("```")) {
+        code.content.push(lines[index]);
+        index++;
+        }
+
+        // Skip the closing "```" if present
+        if (index < lines.length) {
+        index++;
+        }
+
+        // Convert array to string
+        code.content = code.content.join("\n");
+        return { code, nextIndex: index };
+    }
+        
+
+      makeEmbeddedImage(line) {
+        let image = new EmbeddedImage();
+        image.id = ++this.elementId;
+        image.location = line.slice(2).trim();  // Remove "![" from start
+        return image;
       }
-  }
+
+}
