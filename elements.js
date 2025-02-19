@@ -36,6 +36,12 @@ class CodeBlock {
     language = ""
 }
 
+class InlineCode{
+    id = 0
+    content = ""
+    language = ""
+}
+
 class EmbeddedImage {
     id = 0
     location = "" //local link or hyperlink goes here
@@ -75,4 +81,4 @@ class Footer {
     size = "small" //probably would affect the height of the footer
 }
 
-export { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage, Divider, HyperLink, RawHtml, Menu, Footer };
+export { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage, Divider, HyperLink, RawHtml, Menu, Footer, InlineCode };
