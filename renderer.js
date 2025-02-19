@@ -1,14 +1,10 @@
-//This file will contain the code that will convert the list of element objects into functional HTML markup.
-
 import { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage } from './elements';
-
 import MarkdownInterpeter from './interpreter.js';
-
 const interpeter = new MarkdownInterpeter()
-
 const page = getElementById("MDPP_Anchor")
-
 var elements = [] //PLACEHOLDER!! Replace this with a call to the interpeter
+
+//Actual rendering procedure begins here
 
 for (i = 0; i <= elements.length; i++)
 {
@@ -16,20 +12,61 @@ for (i = 0; i <= elements.length; i++)
     if (i == 0 && element instanceof Heading) // If first line is a heading, make it the banner content
     {
         render_heading(element, page, true)
+        continue
+    }
+
+    if (element instanceof Heading)
+    {
+        render_heading(element, page, true)
+        continue
     }
 
     if (element instanceof ListItem) // Sanity check -- this should never happen
     {
-        console.log("Warning: MDPP/Renderer: ListItem appeared in main element list.")
+        console.log("Warning: MDPP/Renderer: ListItem appeared in main element list. Probably a bug in interpreter. Skipping.")
+        console.log(`Skipped element content: ${element.content}`)
         continue
     }
 
     if (element instanceof Paragraph)
     {
         render_paragraph(element, page)
+        continue
     }
 
+    if (element instanceof BulletList)
+    {
+        render_list(element, page)
+        continue
+    }
+
+    if (element instanceof CodeBlock)
+    {
+        render_codeblock(element, page)
+        continue
+    }
+
+    if (element instanceof EmbeddedImage)
+    {
+        render_image(element, page)
+        continue
+    }
+
+    if (element instanceof Divider)
+    {
+        render_divider(page)
+        continue
+    }
+
+    if (element instanceof HyperLink)
+        {
+            render_link(element, page)
+            continue
+        }
+
 }
+
+//Rendering procedure over, begin rendering functions
 
 function render_heading(heading, previous, banner=false) {
     var htmlContent = ""
@@ -115,10 +152,13 @@ function render_list (list, previous) {
     //generate all the list elements
     for (i = 0; i <= list.items.length; i++) {
         var listItem = list.items[i]
-        if (listItem.hasLabel == true) {
+
+        if (listItem.hasLabel == true)
+        {
             htmlContent += `<li>${listItem.content}</li>`
         }
-        else { //if hasLabel is false, render as <p> instead of <li>
+        else //if hasLabel is false, render as <p> instead of <li>
+        { 
             htmlContent += render_paragraph(listItem, null, true)
         }
     }
