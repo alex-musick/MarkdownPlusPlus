@@ -12,16 +12,18 @@ import {
   RawHtml,
   Menu,
   Footer,
-} from "./elements";
+} from "./elements.js";
+import fs from "fs";
 class MarkdownInterpreter {
   constructor() {
     this.elementId = 0; // Keep track of element IDs
   }
 
   // Main function to read markdown text
-  readMarkdown(text) {
+  readMarkdown() {
+    const markdownText = fs.readFileSync('example.md', 'utf-8');
+    let lines = markdownText.split("\n"); // Split text into lines
     let elements = []; // Store all our elements here
-    let lines = text.split("\n"); // Split text into lines
 
     for (let line of lines) {
       if (line.trim() === "") {
@@ -43,8 +45,6 @@ class MarkdownInterpreter {
         elements.push(this.makeHyperLink(line));
       } else if (line.includes("`")) {
         elements.push(this.makeInlineCode(line));
-      } else if (line.includes("~~")) {
-        elements.push(this.makeStrikethrough(line));
       } else {
         elements.push(this.makeParagraph(line));
       }
@@ -74,16 +74,32 @@ class MarkdownInterpreter {
   makeParagraph(line) {
     let paragraph = new Paragraph();
     paragraph.id = ++this.elementId;
-    paragraph.content = line.trim();
-
+    
     // Check if text has bold or italic
-    if (line.includes("**")) {
+    
+    if (line.includes("***")) {
       paragraph.bold = true;
+      paragraph.italic = true;
+      line = line.replace(/\*\*\*(.*?)\*\*\*/g, "$1");
     }
-    if (line.includes("*")) {
+    else if (line.includes("**")) {
+      paragraph.bold = true;
+      line = line.replace(/\*\*(.*?)\*\*/g, "$1");
+    }
+    else if (line.includes("*")) {
       paragraph.italics = true;
+      line = line.replace(/\*(.*?)\*/g, "$1");
     }
-
+    else if (line.includes("_")) {
+      paragraph.underline = true;
+      line = line.replace(/_(.*?)_/g, "$1");
+    }
+    else if (line.includes("~~")) {
+      paragraph.strikethrough = true;
+      line = line.replace(/~~(.*?)~~/g, "$1");
+    }
+    paragraph.content = line.trim();
+    
     return paragraph;
   }
 
@@ -91,10 +107,25 @@ class MarkdownInterpreter {
   makeListItem(line) {
     let list = new BulletList();
     list.id = ++this.elementId;
+    list.ordered = false;
 
     let item = new ListItem();
     item.id = ++this.elementId;
     item.content = line.slice(2).trim(); // Remove "- " from start
+
+    list.items = [item];
+    return list;
+  }
+
+  // Create an ordered list item
+  makeOrderedListItem(line) {
+    let list = new BulletList();
+    list.id = ++this.elementId;
+    list.ordered = true;
+
+    let item = new ListItem();
+    item.id = ++this.elementId;
+    item.content = line.slice(3).trim(); // Remove "1. " from start
 
     list.items = [item];
     return list;
@@ -152,4 +183,9 @@ class MarkdownInterpreter {
     paragraph.strikethrough = false;
     return paragraph;
   }
+  toJSON(elements) {
+    return JSON.stringify({ elements }, null, 2);
+  }
 }
+
+export default MarkdownInterpreter;
