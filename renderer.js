@@ -1,72 +1,4 @@
-import { Heading, Paragraph, ListItem, BulletList, CodeBlock, EmbeddedImage } from './elements';
-import MarkdownInterpeter from './interpreter.js';
-const interpeter = new MarkdownInterpeter()
-const page = getElementById("MDPP_Anchor")
-var elements = [] //PLACEHOLDER!! Replace this with a call to the interpeter
-
-//Actual rendering procedure begins here
-
-for (i = 0; i <= elements.length; i++)
-{
-    var element = elements[i]
-    if (i == 0 && element instanceof Heading) // If first line is a heading, make it the banner content
-    {
-        render_heading(element, page, true)
-        continue
-    }
-
-    if (element instanceof Heading)
-    {
-        render_heading(element, page, true)
-        continue
-    }
-
-    if (element instanceof ListItem) // Sanity check -- this should never happen
-    {
-        console.log("Warning: MDPP/Renderer: ListItem appeared in main element list. Probably a bug in interpreter. Skipping.")
-        console.log(`Skipped element content: ${element.content}`)
-        continue
-    }
-
-    if (element instanceof Paragraph)
-    {
-        render_paragraph(element, page)
-        continue
-    }
-
-    if (element instanceof BulletList)
-    {
-        render_list(element, page)
-        continue
-    }
-
-    if (element instanceof CodeBlock)
-    {
-        render_codeblock(element, page)
-        continue
-    }
-
-    if (element instanceof EmbeddedImage)
-    {
-        render_image(element, page)
-        continue
-    }
-
-    if (element instanceof Divider)
-    {
-        render_divider(page)
-        continue
-    }
-
-    if (element instanceof HyperLink)
-        {
-            render_link(element, page)
-            continue
-        }
-
-}
-
-//Rendering procedure over, begin rendering functions
+//begin rendering functions
 
 function render_heading(heading, previous, banner=false) {
     var htmlContent = ""
@@ -120,7 +52,7 @@ function render_paragraph(paragraph, previous, isChild = false) {
     }
 
     //Check for children and generate them
-    if (paragraph.children != []) {
+    if (paragraph.children.length != 0) {
         for (i = 0; i <= paragraph.children.length; i++) {
             htmlContent += render_paragraph(paragraph.children[i], null, true)
         }
@@ -208,3 +140,73 @@ function render_link(link, previous) {
     previous.insertAdjacentHTML("beforeend", htmlContent)
     return
 }
+
+//Actual rendering procedure begins here
+
+async function render_all() {
+    const interpreter = new MarkdownInterpreter()
+    const page = document.getElementById("MDPP_Anchor")
+    var elements = await interpreter.readMarkdown()
+
+    for (i = 0; i <= elements.length; i++)
+        {
+            var element = elements[i]
+            if (i == 0 && element instanceof Heading) // If first line is a heading, make it the banner content
+            {
+                render_heading(element, page, true)
+                continue
+            }
+        
+            if (element instanceof Heading)
+            {
+                render_heading(element, page, true)
+                continue
+            }
+        
+            if (element instanceof ListItem) // Sanity check -- this should never happen
+            {
+                console.log("Warning: MDPP/Renderer: ListItem appeared in main element list. Probably a bug in interpreter. Skipping.")
+                console.log(`Skipped element content: ${element.content}`)
+                continue
+            }
+        
+            if (element instanceof Paragraph)
+            {
+                render_paragraph(element, page)
+                continue
+            }
+        
+            if (element instanceof BulletList)
+            {
+                render_list(element, page)
+                continue
+            }
+        
+            if (element instanceof CodeBlock)
+            {
+                render_codeblock(element, page)
+                continue
+            }
+        
+            if (element instanceof EmbeddedImage)
+            {
+                render_image(element, page)
+                continue
+            }
+        
+            if (element instanceof Divider)
+            {
+                render_divider(page)
+                continue
+            }
+        
+            if (element instanceof HyperLink)
+                {
+                    render_link(element, page)
+                    continue
+                }
+        
+        }
+}
+
+render_all()

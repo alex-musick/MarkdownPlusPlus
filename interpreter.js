@@ -1,27 +1,39 @@
 //This file will contain the code that reads the markdown file, and converts it to a list of element objects.
 // Simple markdown interpreter that converts text to element objects
-import {
-  Heading,
-  Paragraph,
-  ListItem,
-  BulletList,
-  CodeBlock,
-  EmbeddedImage,
-  Divider,
-  HyperLink,
-  RawHtml,
-  Menu,
-  Footer,
-} from "./elements.js";
-import fs from "fs";
+// import {
+//   Heading,
+//   Paragraph,
+//   ListItem,
+//   BulletList,
+//   CodeBlock,
+//   EmbeddedImage,
+//   Divider,
+//   HyperLink,
+//   RawHtml,
+//   Menu,
+//   Footer,
+// } from "./elements.js";
+
+async function readFile(filename)
+{
+    let fileContents = ""
+    await fetch(filename)
+        .then(response => response.text())
+        .then(text => {fileContents = text})
+
+    return fileContents
+}
+
 class MarkdownInterpreter {
   constructor() {
     this.elementId = 0; // Keep track of element IDs
   }
 
   // Main function to read markdown text
-  readMarkdown() {
-    const markdownText = fs.readFileSync('example.md', 'utf-8');
+  async readMarkdown() {
+    var markdownText = await readFile("./example.md")
+
+    console.log(markdownText)
     let lines = markdownText.split("\n"); // Split text into lines
     let elements = []; // Store all our elements here
 
@@ -187,5 +199,3 @@ class MarkdownInterpreter {
     return JSON.stringify({ elements }, null, 2);
   }
 }
-
-export default MarkdownInterpreter;

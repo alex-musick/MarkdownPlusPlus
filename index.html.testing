@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles1.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+      <div id="banner"></div>
+      <h1 class="specialh1">jnwegjerngowrmekg</h1>
+      <h1>owgnrweokgmwrekmg</h1>
+      <h2 class="specialh2">ojwegn owregopwr</h2>
+      <h2>owgmerpmg</h2>
+      <h3 class="specialh3">eokrgmnorwke</h3>
+      <h3>wognkwremg</h3>
+      <p class="specialp">
+        jognowmfgwejr gwlernvcijnwrevpiwrepcjnirefcrewnfverwgwrengfpwer erwu
+        fbiwer fbwerf nernf erfbrwefb wefbrweifb werufberwioerwf herwfb
+        werifbwerif
+      </p>
+      <div class="largeImg">
+        <img src="imgFormat.webp" alt="Image" />
+      </div>
+      <div class="smallImg">
+        <img src="imgFormat.webp" alt="Image" />
+      </div>
+      <p>
+        ihefg neruferwubf rewfberwh frwenfrwefboijpadsb ofiebrfiobef ercnwebo
+        fbwe ofbwehorfb oiewbfwer fbrweufb erwfbrehwfb werhifbo
+        wreufuwebfoihwerfb owerfboherwfboij rewfb huewrfoiw
+      </p>
+    </main>
+  </body>
+</html>
