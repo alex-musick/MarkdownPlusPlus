@@ -4,7 +4,7 @@ function render_heading(heading, previous, banner=false) {
     var htmlContent = ""
     if (banner == true)
     {
-        htmlContent += '<div class="banner">'
+        htmlContent += '<div id="banner">'
     }
     htmlContent += `<h${heading.level}>`
     htmlContent += heading.content
@@ -53,7 +53,7 @@ function render_paragraph(paragraph, previous, isChild = false) {
 
     //Check for children and generate them
     if (paragraph.children.length != 0) {
-        for (i = 0; i < paragraph.children.length; i++) {
+        for (i = 0; i <= paragraph.children.length; i++) {
             htmlContent += render_paragraph(paragraph.children[i], null, true)
         }
     }
@@ -82,7 +82,7 @@ function render_list (list, previous) {
     }
 
     //generate all the list elements
-    for (i = 0; i < list.items.length; i++) {
+    for (i = 0; i <= list.items.length; i++) {
         var listItem = list.items[i]
 
         if (listItem.hasLabel == true)
@@ -141,31 +141,6 @@ function render_link(link, previous) {
     return
 }
 
-function render_menu(menu, previous, banner=false) {
-    var htmlContent = '<div id="menu"'
-    if (banner == true)
-    {
-        htmlContent += ' class="banner"'
-    }
-    htmlContent += '></div>'
-    previous.insertAdjacentHTML("beforeend", htmlContent)
-    
-    const menu = document.getElementById("menu")
-    
-    for (i = 0; i < elements.length; i++)
-    {
-        var element = menu.items[i]
-        if (element instanceof Paragraph)
-        {
-            render_paragraph(element, menu)
-        }
-        else if (element instanceof HyperLink)
-        {
-            render_link(element, menu)
-        }
-    }
-}
-
 //Actual rendering procedure begins here
 
 async function render_all() {
@@ -173,7 +148,7 @@ async function render_all() {
     const page = document.getElementById("MDPP_Anchor")
     var elements = await interpreter.readMarkdown()
 
-    for (i = 0; i < elements.length; i++)
+    for (i = 0; i <= elements.length; i++)
         {
             var element = elements[i]
             if (i == 0 && element instanceof Heading) // If first line is a heading, make it the banner content
@@ -226,16 +201,10 @@ async function render_all() {
             }
         
             if (element instanceof HyperLink)
-            {
-                render_link(element, page)
-                continue
-            }
-
-            if (element instanceof Menu)
-            {
-                render_menu(element, page)
-                continue
-            }
+                {
+                    render_link(element, page)
+                    continue
+                }
         
         }
 }

@@ -17,7 +17,8 @@ My Website
 
 ## Banner
 
-If the first line of the markdown file is a top-level heading, it will be rendered as a banner.
+If the first line of the markdown file is a top-level heading or a menu, it will be rendered as a banner.
+If you want to bypass this feature, you may simply add an empty line to the beginning of your file.
 
 ## Footers
 

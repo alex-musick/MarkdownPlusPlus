@@ -71,6 +71,7 @@ class RawHtml {
 class Menu {
     id = 0
     items = [] //List of elements
+    style = "horizontal" //we can make a few site menu templates
 }
 
 class Footer {
