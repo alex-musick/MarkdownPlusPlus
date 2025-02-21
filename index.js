@@ -443,7 +443,7 @@ async function render_all() {
       
           if (element instanceof Heading)
           {
-              render_heading(element, page, true)
+              render_heading(element, page)
               continue
           }
       
