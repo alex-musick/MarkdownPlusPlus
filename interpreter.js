@@ -14,14 +14,15 @@
 //   Footer,
 // } from "./elements.js";
 
-async function readFile(filename)
-{
-    let fileContents = ""
-    await fetch(filename)
-        .then(response => response.text())
-        .then(text => {fileContents = text})
+async function readFile(filename) {
+  let fileContents = "";
+  await fetch(filename)
+    .then((response) => response.text())
+    .then((text) => {
+      fileContents = text;
+    });
 
-    return fileContents
+  return fileContents;
 }
 
 class MarkdownInterpreter {
@@ -31,11 +32,12 @@ class MarkdownInterpreter {
 
   // Main function to read markdown text
   async readMarkdown() {
-    var markdownText = await readFile("./example.md")
+    var markdownText = await readFile("./example.md");
 
-    console.log(markdownText)
+    console.log(markdownText);
     let lines = markdownText.split("\n"); // Split text into lines
     let elements = []; // Store all our elements here
+    let currentList = null; // To track the current BulletList
 
     for (let line of lines) {
       if (line.trim() === "") {
@@ -46,8 +48,24 @@ class MarkdownInterpreter {
       if (line.startsWith("#")) {
         elements.push(this.makeHeading(line));
       } else if (line.startsWith("- ")) {
-        elements.push(this.makeListItem(line));
-      } else if (line.startsWith("1. ")) {
+        if (!currentList || currentList.ordered) {
+          if (currentList) {
+            elements.push(currentList);
+          }
+          currentList = new BulletList();
+          currentList.id = ++this.elementId;
+          currentList.ordered = false;
+        }
+        currentList.items.push(this.makeListItem(line));
+      } else if (/^\d+\./.test(line)) {
+        if (!currentList || !currentList.ordered) {
+          if (currentList) {
+            elements.push(currentList);
+          }
+          currentList = new BulletList();
+          currentList.id = ++this.elementId;
+          currentList.ordered = true;
+        }
         elements.push(this.makeOrderedListItem(line));
       } else if (line.startsWith("```")) {
         elements.push(this.makeCodeBlock(line));
@@ -83,64 +101,46 @@ class MarkdownInterpreter {
   }
 
   // Create a paragraph element
+
   makeParagraph(line) {
     let paragraph = new Paragraph();
     paragraph.id = ++this.elementId;
-    
+
     // Check if text has bold or italic
-    
+
     if (line.includes("***")) {
       paragraph.bold = true;
       paragraph.italic = true;
       line = line.replace(/\*\*\*(.*?)\*\*\*/g, "$1");
-    }
-    else if (line.includes("**")) {
+    } else if (line.includes("**")) {
       paragraph.bold = true;
       line = line.replace(/\*\*(.*?)\*\*/g, "$1");
-    }
-    else if (line.includes("*")) {
+    } else if (line.includes("*")) {
       paragraph.italics = true;
       line = line.replace(/\*(.*?)\*/g, "$1");
-    }
-    else if (line.includes("_")) {
+    } else if (line.includes("_")) {
       paragraph.underline = true;
       line = line.replace(/_(.*?)_/g, "$1");
-    }
-    else if (line.includes("~~")) {
+    } else if (line.includes("~~")) {
       paragraph.strikethrough = true;
       line = line.replace(/~~(.*?)~~/g, "$1");
     }
     paragraph.content = line.trim();
-    
+
     return paragraph;
   }
 
   // Create a list item
   makeListItem(line) {
-    let list = new BulletList();
-    list.id = ++this.elementId;
-    list.ordered = false;
-
-    let item = new ListItem();
+    let item = new ListItem(line);
     item.id = ++this.elementId;
-    item.content = line.slice(2).trim(); // Remove "- " from start
 
-    list.items = [item];
-    return list;
-  }
-
-  // Create an ordered list item
-  makeOrderedListItem(line) {
-    let list = new BulletList();
-    list.id = ++this.elementId;
-    list.ordered = true;
-
-    let item = new ListItem();
-    item.id = ++this.elementId;
-    item.content = line.slice(3).trim(); // Remove "1. " from start
-
-    list.items = [item];
-    return list;
+    if (line.startsWith("- ")) {
+      item.content = line.slice(2).trim();
+    } else if (/^\d+\./.test(line)) {
+      item.content = line.replace(/^\d+\.\s*/, "").trim();
+    }
+    return item;
   }
 
   // Create a code block
