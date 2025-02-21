@@ -10,14 +10,20 @@
     --headline3Sise: 24px;
     --paragraphFontSize: 16px;
   }
-  #banner {
+  .banner {
     background-color: var(--bannerColor);
     width: 100%;
-    height: 100px;
-    text-align: center;
-    color: var(--headerColor);
+    height: auto;
+    padding: 20px;
+}
+.menu {
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+}
+a {
+    margin: 0 auto;
     font-family: var(--headerFont);
-    font-size: var(--headline1Size);
 }
 h1 {
     text-align: center;
