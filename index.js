@@ -254,7 +254,7 @@ class MarkdownInterpreter {
   makeEmbeddedImage(line) {
     let image = new EmbeddedImage();
     image.id = ++this.elementId;
-    image.location = line.slice(2).trim(); // Remove "![" from start
+    image.location = line.slice(4).trim(); // Remove "![" from start
     return image;
   }
   makeHyperLink(line) {
@@ -288,7 +288,7 @@ function render_heading(heading, previous, banner=false) {
   var htmlContent = ""
   if (banner == true)
   {
-      htmlContent += '<div id="banner">'
+      htmlContent += '<div class="banner">'
   }
   htmlContent += `<h${heading.level}>`
   htmlContent += heading.content
@@ -454,17 +454,17 @@ async function render_all() {
               continue
           }
       
-          if (element instanceof Paragraph)
+          if (element instanceof Paragraph && !(element instanceof ListItem))
           {
               render_paragraph(element, page)
               continue
           }
       
-          if (element instanceof BulletList)
-          {
-              render_list(element, page)
-              continue
-          }
+          // if (element instanceof BulletList)
+          // {
+          //     render_list(element, page)
+          //     continue
+          // }
       
           if (element instanceof CodeBlock)
           {

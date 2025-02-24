@@ -4,7 +4,7 @@ function render_heading(heading, previous, banner=false) {
     var htmlContent = ""
     if (banner == true)
     {
-        htmlContent += '<div id="banner">'
+        htmlContent += '<div class="banner">'
     }
     htmlContent += `<h${heading.level}>`
     htmlContent += heading.content
